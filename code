@@ -1,0 +1,92 @@
+create database student_management;
+use student_management;
+create table class(
+    id int not null ,
+    name nvarchar(100)not null ,
+    language nvarchar(100) not null ,
+    description nvarchar(100)
+);
+create table students(
+    id int not null ,
+    fullname nvarchar(100)not null,
+    address_id int not null ,
+    phone int unique not null ,
+    class_id int not null
+);
+create table address(
+    id int not null ,
+    address nvarchar(100) not null,
+    student_id int not null
+);
+create table course(
+    id int not null ,
+    name nvarchar(100)not null ,
+    description nvarchar(100),
+    id_course int not null
+);
+create table point(
+    id int not null ,
+    course_id int not null ,
+    student_id int not null ,
+    point int not null
+);
+alter table class add primary key (id);
+alter table address add primary key (id);
+alter table course add primary key (id);
+alter table point add primary key (id);
+alter table students add primary key (id);
+alter table address add foreign key (student_id)references students(id);
+alter table point add foreign key (student_id)references students(id);
+alter table students add foreign key (class_id)references class(id);
+alter table course add foreign key (id_course)references class(id);
+alter table point add foreign key (course_id)references course(id);
+
+insert into class value (1,'c0920i1','java','decscription 1');
+insert into class value (2,'c1020g1','php','decscription 2');
+insert into class value (3,'c1020i1','java','decscription 3');
+insert into class value (4,'c1020g2','c++','decscription 4');
+insert into class value (5,'c1120i1','php','decscription 5');
+
+insert into students value (1,'Lê Doãn Tùng',1,128440,1);
+insert into students value (2,'Trần Xuân Thịnh',3,128441,2);
+insert into students value (3,'Nguyễn Văn Tú',4,128442,3);
+insert into students value (4,'Trịnh Quốc Dũng',5,128443,4);
+insert into students value (5,'Tungle',4,128444,5);
+insert into students value (6,'tung 1',2,128445,4);
+insert into students value (7,'Tùng 2',3,128446,3);
+insert into students value (8,'Tùng 3',5,128447,2);
+insert into students value (9,'Tùng 4',5,128448,1);
+insert into students value (10,'Tùng 5',1,128449,1);
+
+insert into address value (1,'Hải Phòng',1);
+insert into address value (2,'Hải Dương',2);
+insert into address value (3,'Hưng Yên',3);
+insert into address value (4,'Quảng Ninh',4);
+insert into address value (5,'Hà Nội',5);
+
+insert into course value (1,'java','description 1',1);
+insert into course value (2,'c#','description 2',2);
+insert into course value (3,'java','description 3',3);
+insert into course value (4,'c++','description 4',4);
+insert into course value (5,'php','description 5',5);
+
+insert into point value (1,1,9,8);
+insert into point value (2,2,8,9);
+insert into point value (3,3,9,10);
+insert into point value (4,4,8,6);
+insert into point value (5,5,7,7);
+insert into point value (6,5,1,7);
+insert into point value (7,2,6,8);
+insert into point value (8,2,1,8);
+insert into point value (9,1,3,9);
+insert into point value (10,3,4,9);
+insert into point value (11,3,5,10);
+insert into point value (12,1,1,10);
+insert into point value (13,4,1,9);
+insert into point value (14,1,8,5);
+insert into point value (15,5,10,6);
+
+
+select * from students join class c on students.class_id = c.id;
+select * from students join address a on students.address_id = a.id;
+select avg(point) from point join course c on c.id = point.course_id ;
